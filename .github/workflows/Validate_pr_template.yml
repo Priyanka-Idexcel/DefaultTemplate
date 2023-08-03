@@ -1,1 +1,25 @@
 
+name: Validate PR Template
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Pull Request Description
+        id: pr_description
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const requiredFields = ['Description', 'Changes Made', 'Related Issues', 'Checklist'];
+            const prDescription = context.payload.pull_request.body;
+            const missingFields = requiredFields.filter(field => !prDescription.includes(field));
+            if (missingFields.length > 0) {
+              core.setFailed(`Pull request description is missing required fields: ${missingFields.join(', ')}`);
+            }
