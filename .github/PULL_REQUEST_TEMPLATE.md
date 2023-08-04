@@ -1,9 +1,13 @@
 
-This is a <font color="red">red-colored</font> text.
+---
+title: "[Enter PR Title]"
+description: "Please provide a detailed description of your changes."
+---
+
 
 ## Description
 
-    placeholder
+  
 
 ## File changes
 
