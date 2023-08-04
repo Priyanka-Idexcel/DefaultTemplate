@@ -1,1 +1,19 @@
 
+# .github/workflows/pr_template_validation.yml
+name: PR Template Validation
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  validate_pr_template:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Validate PR Template
+        run: node .github/actions/validate-pr-template.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
