@@ -1,5 +1,5 @@
 // .github/actions/validate-pr-template.js
-const core = require('@actions/core');
+// const core = require('@actions/core');
 
 try {
   const prTemplate = context.payload.pull_request.body;
