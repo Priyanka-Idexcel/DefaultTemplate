@@ -3,6 +3,8 @@ This is a <font color="red">red-colored</font> text.
 
 ## Description
 
+    placeholder
+
 ## File changes
 
 ## Before Fix
