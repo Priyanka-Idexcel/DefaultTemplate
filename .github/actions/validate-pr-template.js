@@ -1,8 +1,8 @@
-// .github/actions/validate-pr-template.js
-// const core = require('@actions/core');
+/// .github/actions/validate-pr-template.js
+const core = require('@actions/core');
 
 try {
-  const prTemplate = context.payload.pull_request.body;
+  const prTemplate = process.env.PR_TEMPLATE;
   const requiredFields = ['Title', 'Description', 'Related', 'Issues', 'Checklist'];
 
   const missingFields = requiredFields.filter(field => !prTemplate.includes(field));
