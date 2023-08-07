@@ -21,7 +21,6 @@ jobs:
         uses: actions/github-script@v3
         with:
           script: |
-            import github
 
             repo = github.Repository("Priyanka-Idexcel", "DefaultTemplate")
             pull_request = repo.pulls.get(pull_request_number)
