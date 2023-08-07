@@ -1,1 +1,36 @@
+name: Validate Pull Request Template
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+
+jobs:
+  validate_template:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Validate Template
+        uses: actions/github-script@v3
+        with:
+          script: |
+            import github
+
+            repo = github.Repository("Priyanka-Idexcel", "DefaultTemplate")
+            pull_request = repo.pulls.get(pull_request_number)
+
+            template_file = ".github/PULL_REQUEST_TEMPLATE.md"
+            required_fields = ["Description", "File Changes","Before Fix","After Fix","Impacted areas","Brakeman Report","OverCommit Report","Checklist"]
+
+            for required_field in required_fields:
+                if required_field not in pull_request.body:
+                    print(f"The required field '{required_field}' is missing from the pull request.")
+                    exit(1)
 
