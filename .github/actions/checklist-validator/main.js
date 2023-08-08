@@ -22,7 +22,7 @@ const path = require('path');
 
 const prTemplatePath = path.join(process.env.GITHUB_WORKSPACE, '.github', 'PULL_REQUEST_TEMPLATE.md');
 const prTemplateContent = fs.readFileSync(prTemplatePath, 'utf-8');
-debugger
+
 const checkboxPattern = /^\s*-\s*\[x\]/gm;
 const checkboxMatches = prTemplateContent.match(checkboxPattern);
 if (!checkboxMatches)
