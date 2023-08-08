@@ -20,6 +20,8 @@
 const fs = require('fs');
 const path = require('path');
 
+process.env["GITHUB_WORKSPACE"]="/home/ubuntu/Projects/testing/DefaultTemplate/";
+
 const prTemplatePath = path.join(process.env.GITHUB_WORKSPACE, '.github', 'PULL_REQUEST_TEMPLATE.md');
 const prTemplateContent = fs.readFileSync(prTemplatePath, 'utf-8');
 
