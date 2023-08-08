@@ -7,7 +7,7 @@ const prTemplateContent = fs.readFileSync(prTemplatePath, 'utf-8');
 const checkboxPattern = /^\s*-\s*\[x\]/gm;
 const checkboxMatches = prTemplateContent.match(checkboxPattern);
 
-if checkboxMatches.length === 0 {
+if (checkboxMatches.length === 0) {
   console.error('error: PR checklist is missing. Please add checkboxes to your template.');
   process.exit(1);
 } else if (checkboxMatches.length < requiredCheckboxCount) {
