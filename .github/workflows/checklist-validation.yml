@@ -12,12 +12,6 @@ jobs:
 
     steps:
       steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Print contents of PULL_REQUEST_TEMPLATE.md
-        run: cat DefaultTemplate/.github/PULL_REQUEST_TEMPLATE.md
-
       - name: Check for Checklist Completion
         run: |
           checklist_completed=$(grep -c '^\s*-\s*\[x\]' DefaultTemplate/.github/PULL_REQUEST_TEMPLATE.md || true)
