@@ -1,1 +1,20 @@
+name: Checklist Validation
 
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  validateChecklist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check for Checklist Completion
+        run: |
+          checklist_completed=$(grep -c '^\s*-\s*\[x\]' $GITHUB_WORKSPACE/.github/PULL_REQUEST_TEMPLATE.md || true)
+          if [ "$checklist_completed" -eq 0 ]; then
+            echo "error: PR checklist is not completed. Please make sure all checkboxes are marked."
+            exit 1
+          fi
