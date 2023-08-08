@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Check for Checklist Completion
         run: |
-          checklist_completed=$(grep -c '^\s*-\s*\[x\]' DefaultTemplate/.github/PULL_REQUEST_TEMPLATE.md || true)
+          checklist_completed=$(grep -c '^\s*-\s*\[x\]'.github/PULL_REQUEST_TEMPLATE.md || true)
           if [ "$checklist_completed" -eq 0 ]; then
             echo "error: PR checklist is not completed. Please make sure all checkboxes are marked."
             exit 1
