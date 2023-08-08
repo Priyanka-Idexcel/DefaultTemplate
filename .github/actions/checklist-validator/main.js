@@ -26,7 +26,7 @@ const prTemplateContent = fs.readFileSync(prTemplatePath, 'utf-8');
 const checkboxPattern = /^\s*-\s*\[x\]/gm;
 const checkboxMatches = prTemplateContent.match(checkboxPattern);
 
-if (checkboxMatches)
+if (!checkboxMatches)
   console.error('error: No checkboxes found in the PR Template')
  process.exit(1)
 
