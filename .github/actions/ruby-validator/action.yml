@@ -1,12 +1,30 @@
 
-name: 'Checklist Validator'
+# name: 'Checklist Validator'
 
-description: 'Validates PR checklist completion'
+# description: 'Validates PR checklist completion'
 
-inputs: {}
+# inputs: {}
 
-outputs: {}
+# outputs: {}
 
-runs:
-  using: 'docker'
-  main: 'check-validator.rb'
+# runs:
+#   using: 'docker'
+#   main: 'check-validator.rb'
+
+name: Validate checklist
+
+description: A simple action that validates a checklist.
+
+inputs:
+  checklist:
+    description: The checklist to validate.
+    required: true
+
+outputs:
+  errors:
+    description: The errors that were found in the checklist.
+
+steps:
+  - run: ruby validate_checklist.rb
+
+shell: bash
