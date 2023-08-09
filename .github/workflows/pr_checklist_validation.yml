@@ -1,1 +1,46 @@
+# name: PR Checklist Check
 
+# on:
+#   pull_request:
+#     types:
+#       - opened
+#       - edited
+#       - synchronize
+
+# jobs:
+#   check_pr_checklist:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Run PR Checklist Check
+#         run: |
+#           const prTemplate = context.payload.pull_request.body;
+# const missingFields = prTemplate.includes('[ ]');
+# if missingFields.length > 0 {
+# core.core.setFailed(`Pull request template is missing required fields: ${missingFields.join(', ')}`);
+# }
+
+name: PR Checklist Check
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Pull Request Template
+        id: pr_template
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const prTemplate = context.payload.pull_request.body;
+            const missingFields = prTemplate.filter(field => !prTemplate.includes([ ]));
+            if (missingFields.length > 0) {
+              core.setFailed(`Pull request template is missing required fields: ${missingFields.join(', ')}`);
+            }
