@@ -1,7 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-process.env["GITHUB_WORKSPACE"]="/home/ubuntu/Projects/testing/DefaultTemplate/";
+let directeryName = __dirname;
+console.log(directeryName.split('.github')[0], directeryName)
+
+process.env["GITHUB_WORKSPACE"]=`${directeryName.split('.github')[0]}/`;
 const prTemplatePath = path.join(process.env.GITHUB_WORKSPACE, '.github', 'PULL_REQUEST_TEMPLATE.md');
 const prTemplateContent = fs.readFileSync(prTemplatePath, 'utf-8');
 
