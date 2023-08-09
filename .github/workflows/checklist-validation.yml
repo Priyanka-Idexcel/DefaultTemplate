@@ -60,13 +60,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      # - name: Checkout code
+      #   uses: actions/checkout@v2
 
-      - name: Setup Ruby
-        uses: actions/setup-ruby@v2
-        with:
-          ruby-version: '2.7'  # Choose an appropriate Ruby version
+      # - name: Setup Ruby
+      #   uses: actions/setup-ruby@v2
+      #   with:
+      #     ruby-version: '2.7'  # Choose an appropriate Ruby version
 
       - name: Run Ruby Script
         run: ruby .github/scripts/checklist_validator.rb  # Path to your Ruby script
