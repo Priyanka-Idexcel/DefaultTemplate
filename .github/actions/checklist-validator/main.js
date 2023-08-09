@@ -1,6 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
+exports.handler = (event) => {
+
+  console.log('...........',event)
+
 let directeryName = __dirname;
 console.log(directeryName.split('.github')[0], directeryName)
 
@@ -50,4 +54,7 @@ else {
 // }
 
 // console.log('PR checklist is complete.');
+}
+
+
 
