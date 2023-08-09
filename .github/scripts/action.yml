@@ -1,1 +1,17 @@
+name: 'Ruby Script Action'
+description: 'Runs a Ruby script'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0'
+
+    - name: Run Ruby Script
+      run: ruby .github/scripts/validate_checklist.rb
 
