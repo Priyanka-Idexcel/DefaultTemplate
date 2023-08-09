@@ -69,7 +69,8 @@ jobs:
       #     ruby-version: '2.7'  # Choose an appropriate Ruby version
 
       - name: Ruby Script
-        run: ruby checklist_validator.rb  # Path to your Ruby script
+        working-directory: /home/runner/work/Default-Template/  # Replace with your repository's path
+        run: ruby .github/scripts/checklist_validator.rb # Path to your Ruby script
 
 
 
