@@ -1,10 +1,10 @@
-# name: 'Checklist Validator'
-# description: 'Validates PR checklist completion'
-# inputs: {}
-# outputs: {}
-# runs:
-#   using: 'node12'
-#   main: 'main.js'
+name: 'Checklist Validator'
+description: 'Validates PR checklist completion'
+inputs: {}
+outputs: {}
+runs:
+  using: 'node12'
+  main: 'main.js'
 
 # name: 'Checklist Validator'
 # description: 'Validates PR checklist completion'
