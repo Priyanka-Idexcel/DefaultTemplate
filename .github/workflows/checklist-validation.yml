@@ -23,34 +23,9 @@
 #           fi
 # name: PR Checklist Validation
 
-# on:
-#   pull_request:
-#     types: 
-#       - opened
-#       - edited
-#       - synchronize
-
-# jobs:
-#   validate_checklist:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Setup Node.js
-#         uses: actions/setup-node@v2
-#         with:
-#           node-version: '14'
-
-#       - name: Run Checklist Validator
-#         uses: ./.github/actions/checklist-validator
-
-
-name: checklist-validator
 on:
   pull_request:
-    types:
+    types: 
       - opened
       - edited
       - synchronize
@@ -60,8 +35,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Ruby Script
-        uses: /home/ubuntu/Projects/testing/DefaultTemplate/.github/scripts/checklist-validator.rb
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Run Checklist Validator
+        uses: ./.github/actions/checklist-validator
+
+
+# name: checklist-validator
+# on:
+#   pull_request:
+#     types:
+#       - opened
+#       - edited
+#       - synchronize
+
+# jobs:
+#   validate:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Ruby Script
+#         uses: /home/ubuntu/Projects/testing/DefaultTemplate/.github/scripts/checklist-validator.rb
 
 
 
