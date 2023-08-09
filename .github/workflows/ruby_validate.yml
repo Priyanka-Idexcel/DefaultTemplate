@@ -20,9 +20,9 @@ jobs:
           ruby-version: 3.0 # Replace with your desired Ruby version
 
       - name: Run Ruby Script
-        uses: actions/checkout@v2
-        run: chmod +x validate_checklist.rb
-        run: ruby validate_checklist.rb
+        # uses: actions/checkout@v2
+        # run: chmod +x validate_checklist.rb
+        # run: ruby validate_checklist.rb
 
         run: ruby DefaultTemplate/.github/scripts/validate_checklist.rb
 
