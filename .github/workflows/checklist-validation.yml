@@ -47,6 +47,7 @@
 #         uses: ./.github/actions/checklist-validator
 
 
+name: checklist-validator
 on:
   pull_request:
     types:
@@ -60,10 +61,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: scripts/checkout@v2
 
       - name: Setup Ruby
-        uses: actions/setup-ruby@v2
+        uses: scripts/setup-ruby@v2
         with:
           ruby-version: '2.7'  # Choose an appropriate Ruby version
 
