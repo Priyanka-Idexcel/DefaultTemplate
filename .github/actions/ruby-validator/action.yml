@@ -8,5 +8,5 @@ inputs: {}
 outputs: {}
 
 runs:
-  using: 'ruby3.0'
+  using: 'docker'
   main: 'check-validator.rb'
