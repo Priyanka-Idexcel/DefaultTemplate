@@ -6,25 +6,6 @@ on:
       - edited
       - synchronize
 
-# jobs:
-#   validate_checklist:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Setup Ruby
-#         uses: ruby/setup-ruby@v1
-#         with:
-#           ruby-version: 3.0 # Replace with your desired Ruby version
-
-#       - name: Run Ruby Script
-        
-
-#         uses:  ./.github/scripts/validate_checklist.rb
-
-
 jobs:
   validate_checklist:
     runs-on: ubuntu-latest
@@ -33,11 +14,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-       - name: my name
-       
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0 # Replace with your desired Ruby version
 
       - name: Run Ruby Script
-        uses: ./.github/scripts
+        
+
+        uses:  ./.github/actions/ruby-validator
+
+
+# jobs:
+#   validate_checklist:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Run Ruby Script
+#         uses: ./.github/scripts
 
   
     
