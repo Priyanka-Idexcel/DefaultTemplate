@@ -23,71 +23,71 @@
 #           fi
 # name: PR Checklist Validation
 
-# on:
-#   pull_request:
-#     types: 
-#       - opened
-#       - edited
-#       - synchronize
-
-# jobs:
-#   validate_checklist:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Setup Node.js
-#         uses: actions/setup-node@v2
-#         with:
-#           node-version: '14'
-
-#       - name: Run Checklist Validator
-#         uses: ./.github/actions/checklist-validator
-
-
-name: Checklist Validation
-
 on:
   pull_request:
-    types:
+    types: 
       - opened
+      - edited
       - synchronize
 
 jobs:
-  validateChecklist:
+  validate_checklist:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out the code
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Ruby
-        uses: actions/setup-ruby@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          ruby-version: 3.0.4  # Use the appropriate Ruby version
+          node-version: '14'
 
-      - name: Run the validation script
-        run: |
-          ruby_script="
-          # Place your Ruby script here
-          require 'fileutils'
-          ENV['GITHUB_WORKSPACE']='/home/ubuntu/Projects/testing/DefaultTemplate/'
-          pr_template_path = File.join(ENV['GITHUB_WORKSPACE'], '.github', 'PULL_REQUEST_TEMPLATE.md')
-          pr_template_content = File.read(pr_template_path, encoding: 'utf-8')
-          checkbox_pattern = /^\s*-\s*\[x\]/m
-          checkbox_matches = pr_template_content.scan(checkbox_pattern)
-          if checkbox_matches.empty?
-            puts 'error: No checkboxes found in the PR Template'
-            exit(1)
-          end
-          required_checkbox_count = 0
-          if checkbox_matches.length < required_checkbox_count
-            puts 'error: PR checklist is incomplete. Please mark all checkboxes.'
-            exit(1)
-          end
-          puts 'PR checklist is complete.'
-          "
+      - name: Run Checklist Validator
+        uses: ./.github/actions/checklist-validator
 
-          echo "$ruby_script" | ruby
+
+# name: Checklist Validation
+
+# on:
+#   pull_request:
+#     types:
+#       - opened
+#       - synchronize
+
+# jobs:
+#   validateChecklist:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Check out the code
+#         uses: actions/checkout@v2
+
+#       - name: Set up Ruby
+#         uses: actions/setup-ruby@v2
+#         with:
+#           ruby-version: 3.0.4  # Use the appropriate Ruby version
+
+#       - name: Run the validation script
+#         run: |
+#           ruby_script="
+#           # Place your Ruby script here
+#           require 'fileutils'
+#           ENV['GITHUB_WORKSPACE']='/home/ubuntu/Projects/testing/DefaultTemplate/'
+#           pr_template_path = File.join(ENV['GITHUB_WORKSPACE'], '.github', 'PULL_REQUEST_TEMPLATE.md')
+#           pr_template_content = File.read(pr_template_path, encoding: 'utf-8')
+#           checkbox_pattern = /^\s*-\s*\[x\]/m
+#           checkbox_matches = pr_template_content.scan(checkbox_pattern)
+#           if checkbox_matches.empty?
+#             puts 'error: No checkboxes found in the PR Template'
+#             exit(1)
+#           end
+#           required_checkbox_count = 0
+#           if checkbox_matches.length < required_checkbox_count
+#             puts 'error: PR checklist is incomplete. Please mark all checkboxes.'
+#             exit(1)
+#           end
+#           puts 'PR checklist is complete.'
+#           "
+
+#           echo "$ruby_script" | ruby
