@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - name: Ruby Script
-        run: /home/ubuntu/Projects/testing/DefaultTemplate/.github/scripts/checklist-validator.rb
+        uses: /home/ubuntu/Projects/testing/DefaultTemplate/.github/scripts/checklist-validator.rb
 
 
 
