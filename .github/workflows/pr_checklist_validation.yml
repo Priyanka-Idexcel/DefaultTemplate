@@ -40,7 +40,7 @@ jobs:
         with:
           script: |
             const prTemplate = context.payload.pull_request.body;
-            if(prTemplate.indexOf('[ ]'))
+            if(prTemplate.indexOf('[ ]') && prTemplate.indexOf('[ ]') != -1)
             {
               core.setFailed('PR checklist is incomplete. Please mark all checkboxes');
             }
