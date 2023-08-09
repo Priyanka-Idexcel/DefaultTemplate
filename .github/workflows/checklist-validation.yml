@@ -21,36 +21,11 @@
 #           else
           
 #           fi
-name: PR Checklist Validation
+# name: PR Checklist Validation
 
-on:
-  pull_request:
-    types: 
-      - opened
-      - edited
-      - synchronize
-
-jobs:
-  validate_checklist:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Run Checklist Validator
-        uses: ./.github/actions/checklist-validator
-
-
-# name: checklist-validator
 # on:
 #   pull_request:
-#     types:
+#     types: 
 #       - opened
 #       - edited
 #       - synchronize
@@ -63,13 +38,38 @@ jobs:
 #       - name: Checkout code
 #         uses: actions/checkout@v2
 
-#       - name: Setup Ruby
-#         uses: actions/setup-ruby@v2
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v2
 #         with:
-#           ruby-version: '2.7'  # Choose an appropriate Ruby version
+#           node-version: '14'
 
-#       - name: Ruby Script
-#         run: ruby .github/scripts/checklist_validator.rb # Path to your Ruby script
+#       - name: Run Checklist Validator
+#         uses: ./.github/actions/checklist-validator
+
+
+name: checklist-validator
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  validate_checklist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v2
+        with:
+          ruby-version: '2.7'  # Choose an appropriate Ruby version
+
+      - name: Ruby Script
+        run: ruby .github/actions/checklist_validator # Path to your Ruby script
 
 
 

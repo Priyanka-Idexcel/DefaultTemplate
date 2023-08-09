@@ -11,5 +11,5 @@ description: 'Validates PR checklist completion'
 inputs: {}
 outputs: {}
 runs:
-  using: 'node12'
-  main: 'main.js'
+  using: 'ruby 2.7'
+  main: 'Checklist.rb'
