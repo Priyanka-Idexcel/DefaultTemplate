@@ -61,10 +61,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: scripts/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Setup Ruby
-        uses: scripts/setup-ruby@v2
+        uses: actions/setup-ruby@v2
         with:
           ruby-version: '2.7'  # Choose an appropriate Ruby version
 
