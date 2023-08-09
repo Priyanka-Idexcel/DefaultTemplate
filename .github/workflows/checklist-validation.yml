@@ -58,16 +58,6 @@ on:
 jobs:
   validate_checklist:
     runs-on: ubuntu-latest
-
-    # steps:
-    #   - name: Checkout code
-    #     uses: actions/checkout@v2
-
-    #   - name: Setup Ruby
-    #     uses: actions/setup-ruby@v2
-    #     with:
-    #       ruby-version: '2.7'  # Choose an appropriate Ruby version
-
       - name: Ruby Script
         uses: /home/ubuntu/Projects/testing/DefaultTemplate/.github/scripts/checklist-validator.rb# Path to your Ruby script
 
