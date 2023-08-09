@@ -1,10 +1,10 @@
-# name: Ruby Script Workflow
-# on:
-#   pull_request:
-#     types:
-#       - opened
-#       - edited
-#       - synchronize
+name: Ruby Script Workflow
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
 
 # jobs:
 #   validate_checklist:
