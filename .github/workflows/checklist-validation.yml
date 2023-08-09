@@ -58,8 +58,10 @@ on:
 jobs:
   validate_checklist:
     runs-on: ubuntu-latest
+
+    steps:
       - name: Ruby Script
-        uses: /home/ubuntu/Projects/testing/DefaultTemplate/.github/scripts/checklist-validator.rb# Path to your Ruby script
+        run: /home/ubuntu/Projects/testing/DefaultTemplate/.github/scripts/checklist-validator.rb
 
 
 
