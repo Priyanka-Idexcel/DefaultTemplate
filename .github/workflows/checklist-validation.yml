@@ -69,7 +69,7 @@ jobs:
     #       ruby-version: '2.7'  # Choose an appropriate Ruby version
 
       - name: Ruby Script
-        uses: ./.github/actions/checklist_validator # Path to your Ruby script
+        uses: /home/ubuntu/Projects/testing/DefaultTemplate/.github/scripts/checklist-validator.rb# Path to your Ruby script
 
 
 
