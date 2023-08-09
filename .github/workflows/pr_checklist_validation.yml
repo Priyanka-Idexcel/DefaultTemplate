@@ -39,8 +39,15 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
+            const requiredCheckboxes = ['[ ] Review the code changes carefully', '[ ] ', '[ ] ']
             const prTemplate = context.payload.pull_request.body;
-            const missingFields = prTemplate.filter(field => !prTemplate.includes([ ]));
-            if (missingFields.length > 0) {
-              core.setFailed(`Pull request template is missing required fields: ${missingFields.join(', ')}`);
+            const checkboxPattern = /\[ \] [^\r\n]*/g; 
+            const checkboxMatches = prTemplate.match(checkboxPattern);
+
+            const missingCheckboxes = requiredCheckboxes.filter(checkbox => !checkboxMatches.includes(checkbox));
+
+            if (missingCheckboxes.length > 0) {
+              core.setFailed(`Pull request template is missing required checkboxes: ${missingCheckboxes.join(', ')}`);
             }
+
+
