@@ -1,1 +1,24 @@
+name: Ruby Script Workflow
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  validate_checklist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0 # Replace with your desired Ruby version
+
+      - name: Run Ruby Script
+        run: ruby .github/scripts/validate_checklist.rb
 
