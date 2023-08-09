@@ -21,7 +21,7 @@
 #           else
           
 #           fi
-# name: PR Checklist Validation
+name: PR Checklist Validation
 
 on:
   pull_request:
