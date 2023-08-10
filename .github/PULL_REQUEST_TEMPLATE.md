@@ -14,7 +14,7 @@
 ## OverCommit Report
 
 ## Checklist
-# Hope you follow all the checklist properly while raising the PR
+
 - [ ] Review the code changes carefully.
 - [ ] I have tested my changes thoroughly
 - [ ] My code follows the project's coding standards
