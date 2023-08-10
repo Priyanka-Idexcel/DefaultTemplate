@@ -23,7 +23,7 @@
 # core.core.setFailed(`Pull request template is missing required fields: ${missingFields.join(', ')}`);
 # }
 
-name: PR Checklist Check
+name: PR Checklist Validation
 on:
   pull_request:
     types:
