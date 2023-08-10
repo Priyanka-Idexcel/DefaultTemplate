@@ -13,4 +13,4 @@ jobs:
         id: pr_template
         uses: actions/github-script@v5
         with:
-          script:  pr.sh
+          script:  sh pr
