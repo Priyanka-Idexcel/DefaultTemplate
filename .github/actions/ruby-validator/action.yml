@@ -11,20 +11,28 @@
 #   using: 'docker'
 #   main: 'check-validator.rb'
 
-name: Validate checklist
 
-description: A simple action that validates a checklist.
 
-inputs:
-  checklist:
-    description: The checklist to validate.
-    required: true
 
-outputs:
-  errors:
-    description: The errors that were found in the checklist.
 
-steps:
-  - run: ruby validate_checklist.rb
 
-shell: bash
+
+# name: Validate checklist
+
+# description: A simple action that validates a checklist.
+
+# inputs:
+#   checklist:
+#     description: The checklist to validate.
+#     required: true
+
+# outputs:
+#   errors:
+#     description: The errors that were found in the checklist.
+
+
+#    runs: 
+#     using: 
+#     main: ruby validate_checklist.rb
+
+# shell: bash

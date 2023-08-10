@@ -1,36 +1,36 @@
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 
-// exports.handler = (event) => {
+// // exports.handler = (event) => {
 
-//   console.log('...........',event)
+// //   console.log('...........',event)
 
-let directeryName = __dirname;
-console.log(directeryName.split('.github')[0], directeryName)
+// let directeryName = __dirname;
+// console.log(directeryName.split('.github')[0], directeryName)
 
-process.env["GITHUB_WORKSPACE"]=`${directeryName.split('.github')[0]}/`;
-const prTemplatePath = path.join(process.env.GITHUB_WORKSPACE, '.github', 'PULL_REQUEST_TEMPLATE.md');
-const prTemplateContent = fs.readFileSync(prTemplatePath, 'utf-8');
+// process.env["GITHUB_WORKSPACE"]=`${directeryName.split('.github')[0]}/`;
+// const prTemplatePath = path.join(process.env.GITHUB_WORKSPACE, '.github', 'PULL_REQUEST_TEMPLATE.md');
+// const prTemplateContent = fs.readFileSync(prTemplatePath, 'utf-8');
 
-console.log(',,,,,,,,,,,,,', prTemplateContent.indexOf('[ ]'))
-const checkboxPattern = /^\s*-\s*\[x\]/gm;
-let checkboxMatches = prTemplateContent.match(checkboxPattern);
-console.log(',,,,,,,,,,,,,', checkboxMatches)
-// 
-// checkboxMatches && checkboxMatches.length === 0
+// console.log(',,,,,,,,,,,,,', prTemplateContent.indexOf('[ ]'))
+// const checkboxPattern = /^\s*-\s*\[x\]/gm;
+// let checkboxMatches = prTemplateContent.match(checkboxPattern);
+// console.log(',,,,,,,,,,,,,', checkboxMatches)
+// // 
+// // checkboxMatches && checkboxMatches.length === 0
 
 
-if(prTemplateContent.indexOf('[ ]') && prTemplateContent.indexOf('[ ]') != -1) {
-  console.error('error: PR checklist is incomplete. Please mark all checkboxes.');
-  process.exit(1);
-} 
-// else if (checkboxMatches && checkboxMatches.length < requiredCheckboxCount) {
+// if(prTemplateContent.indexOf('[ ]') && prTemplateContent.indexOf('[ ]') != -1) {
 //   console.error('error: PR checklist is incomplete. Please mark all checkboxes.');
 //   process.exit(1);
 // } 
-else {
-  console.log('PR checklist is complete.');
-}
+// // else if (checkboxMatches && checkboxMatches.length < requiredCheckboxCount) {
+// //   console.error('error: PR checklist is incomplete. Please mark all checkboxes.');
+// //   process.exit(1);
+// // } 
+// else {
+//   console.log('PR checklist is complete.');
+// }
 
 // const fs = require('fs');
 // const path = require('path');
