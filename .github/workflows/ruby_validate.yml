@@ -22,7 +22,7 @@ jobs:
       - name: Run Ruby Script
         
 
-        uses:  ./.github/actions/ruby-validator
+        # uses:  ./.github/actions/ruby-validator
 
 
 

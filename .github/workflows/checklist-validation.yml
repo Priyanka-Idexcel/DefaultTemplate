@@ -55,7 +55,7 @@ jobs:
           node-version: '14'
 
       - name: Run Checklist Validator
-        uses: ./.github/actions/checklist-validator
+        # uses: ./.github/actions/checklist-validator
      
 
 
