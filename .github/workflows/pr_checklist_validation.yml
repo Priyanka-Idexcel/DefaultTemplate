@@ -23,7 +23,7 @@
 # core.core.setFailed(`Pull request template is missing required fields: ${missingFields.join(', ')}`);
 # }
 
-name: PR Checklist Validation
+name: PR Checklist Check
 on:
   pull_request:
     types:
@@ -40,16 +40,9 @@ jobs:
         with:
           script: |
             const prTemplate = context.payload.pull_request.body;
-           prChecklist = prTemplate.indexOf('[ ]') && prTemplate.indexOf('[ ]') != -1
-
-            if(prChecklist > -1)
+            if(prTemplate.indexOf('[ ]') && prTemplate.indexOf('[ ]') != -1)
             {
-              core.setFailed('PR checklist is incomplete. Please mark all checkboxes');
+              core.setFailed('PR checklist is incomplete. Please mark all checkboxes);
             }
-
-
-
-            
-
 
 
