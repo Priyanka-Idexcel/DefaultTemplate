@@ -1,3 +1,9 @@
+name: Disable Merge Button on Failed Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed, labeled, unlabeled]
+
 jobs:
   check_status:
     runs-on: ubuntu-latest
@@ -7,10 +13,9 @@ jobs:
         id: pr_details
         uses: octokit/request-action@v2.x
         with:
-          route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}
-          mediaType: {}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          route: GET /repos/:owner/:repo/pulls/:pull_number
+          pull_number: ${{ github.event.pull_request.number }}
+          repo: ${{ github.repository }}
 
       - name: Check if any workflow checks failed
         id: check_failed
