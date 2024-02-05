@@ -1,0 +1,39 @@
+name: Disable Merge Button on Failed Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check_status:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Get pull request details
+        id: pr_details
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /repos/:owner/:repo/pulls/:pull_number
+          pull_number: ${{ github.event.pull_request.number }}
+          repo: ${{ github.repository }}
+
+      - name: Check if any workflow checks failed
+        id: check_failed
+        run: |
+          checks=$(echo "${{ steps.pr_details.outputs.data }}" | jq -r '.status_checks[] | select(.conclusion == "failure")')
+          if [ -n "$checks" ]; then
+            echo "At least one workflow check failed"
+            exit 1
+          fi
+
+      - name: Disable merge button if any workflow checks failed
+        if: steps.check_failed.run == 'exit 1'
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          REPO="${{ github.repository }}"
+          
+          curl -X PATCH \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.luke-cage-preview+json" \
+            -d '{"restrictions": {"users": [], "teams": [], "apps": ["pull-request-checker"]}}' \
+            "https://api.github.com/repos/$REPO/pulls/$PR_NUMBER"
