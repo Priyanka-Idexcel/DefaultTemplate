@@ -15,7 +15,7 @@ jobs:
         with:
           route: GET /repos/:owner/:repo/pulls/:pull_number
           pull_number: ${{ github.event.pull_request.number }}
-          repo: ${{ github.repository }}
+          repo: ${{ github.repository }}{ secrets.GITHUB_TOKEN }}
 
       - name: Check if any workflow checks failed
         id: check_failed
