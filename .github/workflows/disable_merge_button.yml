@@ -13,9 +13,9 @@ jobs:
         id: pr_details
         uses: octokit/request-action@v2.x
         with:
-          route: GET /repos/:owner/:repo/pulls/:pull_number
-          pull_number: ${{ github.event.pull_request.number }}
-          repo: ${{ github.repository }}
+          route: GET /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}
+          mediaType: {}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check if any workflow checks failed
         id: check_failed
