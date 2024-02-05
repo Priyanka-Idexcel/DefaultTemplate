@@ -1,0 +1,23 @@
+name: Disable Merge Button on Failed Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check_status:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Ruby script
+        run: ruby disable_merge_button.rb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
