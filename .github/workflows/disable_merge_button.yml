@@ -11,23 +11,25 @@ jobs:
     steps:
       - name: Get pull request details
         id: pr_details
-        uses: octokit/request-action@v2.x
-        with:
-          route: GET /repos/:owner/:repo/pulls/:pull_number
-          pull_number: ${{ github.event.pull_request.number }}
-          repo: ${{ github.repository }}{ secrets.GITHUB_TOKEN }}
-
-      - name: Check if any workflow checks failed
-        id: check_failed
         run: |
-          checks=$(echo "${{ steps.pr_details.outputs.data }}" | jq -r '.status_checks[] | select(.conclusion == "failure")')
-          if [ -n "$checks" ]; then
-            echo "At least one workflow check failed"
+          gem install octokit
+          ruby << EOF
+          require 'octokit'
+          
+          client = Octokit::Client.new(access_token: ENV['GITHUB_TOKEN'])
+          pr_details = client.pull_request("#{ENV['GITHUB_REPOSITORY']}", "#{ENV['GITHUB_EVENT_NUMBER']}")
+          checks_failed = pr_details.statuses.any? { |status| status.state == 'failure' }
+          
+          if checks_failed
+            puts "At least one workflow check failed"
             exit 1
-          fi
+          end
+          EOF
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Disable merge button if any workflow checks failed
-        if: steps.check_failed.run == 'exit 1'
+        if: steps.pr_details.outcome == 'failure'
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
           REPO="${{ github.repository }}"
@@ -37,3 +39,4 @@ jobs:
             -H "Accept: application/vnd.github.luke-cage-preview+json" \
             -d '{"restrictions": {"users": [], "teams": [], "apps": ["pull-request-checker"]}}' \
             "https://api.github.com/repos/$REPO/pulls/$PR_NUMBER"
+
