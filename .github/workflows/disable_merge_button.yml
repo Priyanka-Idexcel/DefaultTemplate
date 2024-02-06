@@ -1,0 +1,25 @@
+name: Check commit message
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Commit Message
+        id: pr_template
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const fs = require('fs');
+            const eventData = fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8');
+            const eventDataJSON = JSON.parse(eventData);
+            const commitMessage = eventDataJSON.pull_request.head.commit.message;
+            const ticketRegex = /\bCYNCS-[0-9]+\b/;
+            if (!ticketRegex.test(commitMessage)) {
+                console.error('Error: Ticket number not found in commit message.');
+                process.exit(1); // Exit with failure status
+            }
