@@ -1,4 +1,29 @@
-name: Pull Request Validation
+# name: Pull Request Validation
+# on:
+#   pull_request:
+#     types:
+#       - opened
+#       - edited
+#       - synchronize
+# jobs:
+#   validate:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check Pull Request Template
+#         id: pr_template
+#         uses: actions/github-script@v5
+#         with:
+#           script: |
+#              const prTitle = context.payload.pull_request.title;
+#               const ticketRegex = /\bCYNCS-[0-9]+\b/;
+#               if (!ticketRegex.test(prTitle)) {
+#                   core.setFailed('Error: Ticket number not found in commit message.');
+#                   process.exit(1); // Exit with failure status
+#               }
+
+
+
+name: Pull Pr Request Validation
 on:
   pull_request:
     types:
@@ -15,9 +40,8 @@ jobs:
         with:
           script: |
              const prTitle = context.payload.pull_request.title;
-            const ticketRegex = /\bCYNCS-[0-9]+\b/;
-            if (!ticketRegex.test(prTitle)) {
-                core.setFailed('Error: Ticket number not found in commit message.');
-                process.exit(1); // Exit with failure status
-            }
-
+              const ticketRegex = /\bCYNCS-[0-9]+\b/;
+               if (!ticketRegex.test(prTitle)) {
+                   core.setFailed('Error: Ticket number not found in commit message.');
+                   process.exit(1); // Exit with failure status
+               }
