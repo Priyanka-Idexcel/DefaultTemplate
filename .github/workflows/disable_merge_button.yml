@@ -42,6 +42,6 @@ jobs:
              const prTitle = context.payload.pull_request.title;
               const ticketRegex = /\b(CYNCS|CYNCPS|FACT|CV|CAS)-[0-9]+\b/;
                if (!ticketRegex.test(prTitle)) {
-                   core.setFailed('Error: Ticket number not found in commit message.');
+                   core.setFailed('Ticket number not found in commit message OR commit message is not in proper formate');
                    process.exit(1); // Exit with failure status
                }
