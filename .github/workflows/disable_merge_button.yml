@@ -1,4 +1,4 @@
-name: Check Commit Message
+name: Pull Request Validation
 on:
   pull_request:
     types:
@@ -9,25 +9,13 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Check Commit Message for Ticket Number
-        id: check_commit_message
+      - name: Check Pull Request Template
+        id: pr_template
         uses: actions/github-script@v5
         with:
           script: |
-            const fs = require('fs');
-            const eventData = fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8');
-            const eventDataJSON = JSON.parse(eventData);
-
-            // Check if the pull_request object and its nested properties exist
-            if (eventDataJSON.pull_request && eventDataJSON.pull_request.head && eventDataJSON.pull_request.head.commit) {
-                const commitMessage = eventDataJSON.pull_request.head.commit.message;
-                ticketRegex = /\bCYNCS-[0-9]+\b/;
-                if (!ticketRegex.test(commitMessage)) {
-                    console.error('Error: Ticket number not found in commit message.');
-                    process.exit(1); // Exit with failure status
-                }
-            } else {
-                console.error('Error: Unable to extract commit message from the pull request.');
-                process.exit(1); // Exit with failure status
+            const prTemplate = context.payload.pull_request.commit_message;
+            const ticketRegex = /\bCYNCS-[0-9]+\b/;
+            if (!ticketRegex.test(prTemplate)) {
+                core.setFailed('Error: Ticket number not found in commit message.');
             }
-
