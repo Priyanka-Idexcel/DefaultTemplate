@@ -14,9 +14,9 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            const commitMessage = context.payload.pull_request.head.commit.message;
+             const prTitle = context.payload.pull_request.title;
             const ticketRegex = /\bCYNCS-[0-9]+\b/;
-            if (!ticketRegex.test(commitMessage)) {
+            if (!ticketRegex.test(prTitle)) {
                 core.setFailed('Error: Ticket number not found in commit message.');
                 process.exit(1); // Exit with failure status
             }
