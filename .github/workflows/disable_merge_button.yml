@@ -40,7 +40,7 @@ jobs:
         with:
           script: |
              const prTitle = context.payload.pull_request.title;
-              const ticketRegex = /\bCYNCS-[0-9]+\b/;
+              const ticketRegex = /\b(CYNCS|CYNCPS|FACT|CV|CAS)-[0-9]+\b/;
                if (!ticketRegex.test(prTitle)) {
                    core.setFailed('Error: Ticket number not found in commit message.');
                    process.exit(1); // Exit with failure status
