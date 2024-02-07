@@ -14,9 +14,11 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
+            const prTitle = context.payload.pull_request.title;
+            const titleRegex = /\bReverts\b/;
             const requiredFields = ['Description','File Changes','Before Fix','After Fix','Impacted areas','Brakeman Report','OverCommit Report', 'Checklist'];
             const prTemplate = context.payload.pull_request.body;
             const missingFields = requiredFields.filter(field => !prTemplate.includes(field));
-            if (missingFields.length > 0) {
+            if (missingFields.length > 0) && !titleRegex.test(prTemplate) {
               core.setFailed(`Pull request template is missing required fields: ${missingFields.join(', ')}`);
             }
