@@ -1,0 +1,32 @@
+name: Pull Request Validation
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Pull Request Template
+        id: pr_template
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const prBody = context.payload.pull_request.body;
+
+            // Check for the presence of "Reverts" in the PR body
+            const revertsRegex = /\bReverts\b/;
+            const isRevertsPresent = revertsRegex.test(prBody);
+
+            // Check for missing required fields in the PR body
+            const requiredFields = ['Description', 'Jira', 'File Changes', 'Before Fix', 'After Fix', 'Impacted areas', 'OverCommit Report', 'Checklist'];
+            const missingFields = requiredFields.filter(field => !prBody.includes(field));
+            const areRequiredFieldsPresent = missingFields.length === 0;
+
+            // Fail workflow if both conditions are not met
+            if (!isRevertsPresent && !areRequiredFieldsPresent) {
+                core.setFailed('Error: "Reverts" and required fields are missing in PR body.');
+            }
+
