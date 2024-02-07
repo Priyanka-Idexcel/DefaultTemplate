@@ -1,4 +1,4 @@
-name: Pull Request Validation
+name: Check Both Validation
 on:
   pull_request:
     types:
@@ -9,7 +9,7 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Check Pull Request Template
+      - name: Check Both Template
         id: pr_template
         uses: actions/github-script@v5
         with:
@@ -23,7 +23,7 @@ jobs:
             // Check for missing required fields in the PR body
             const requiredFields = ['Description', 'Jira', 'File Changes', 'Before Fix', 'After Fix', 'Impacted areas', 'OverCommit Report', 'Checklist'];
             const missingFields = requiredFields.filter(field => !prBody.includes(field));
-            const areRequiredFieldsPresent = missingFields.length === 0;
+            const areRequiredFieldsPresent = missingFields.length > 0;
 
             // Fail workflow if both conditions are not met
             if (!isRevertsPresent && !areRequiredFieldsPresent) {
