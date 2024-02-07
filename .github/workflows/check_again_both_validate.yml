@@ -1,4 +1,4 @@
-name: Check Both Validation
+name: Check both agian and revert Validation
 on:
   pull_request:
     types:
@@ -16,11 +16,14 @@ jobs:
           script: |
             const prBody = context.payload.pull_request.body;
             const revertsRegex = /\bReverts\b/;
-            const isRevertsPresent = revertsRegex.test(prBody);
+            if (!revertsRegex.test(prBody)) {
+                core.setFailed('Error: "Reverts" not found in PR body.');
+            }
             const requiredFields = ['Description', 'Jira', 'File Changes', 'Before Fix', 'After Fix', 'Impacted areas', 'OverCommit Report', 'Checklist'];
             const missingFields = requiredFields.filter(field => !prBody.includes(field));
-            const areRequiredFieldsPresent = missingFields.length === 0;
-            if (!isRevertsPresent && !areRequiredFieldsPresent) {
-                 core.setFailed(`Pull request template is missing required fields: ${missingFields.join(', ')}`);
+            if (missingFields.length > 0) {
+                core.setFailed(`Pull request template is missing required fields: ${missingFields.join(', ')}`);
             }
+
+
 
