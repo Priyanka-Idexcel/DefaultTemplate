@@ -1,0 +1,22 @@
+name: Pull Request Validation
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Pull Request Template
+        id: pr_template
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const prBody = context.payload.pull_request.body;
+            const revertsRegex = /\bReverts\b/;
+
+            if (!revertsRegex.test(prBody)) {
+                core.setFailed('Error: "Reverts" not found in PR body.');
+            }
