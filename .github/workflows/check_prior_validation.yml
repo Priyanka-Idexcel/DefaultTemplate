@@ -1,0 +1,26 @@
+name: Check Prior Validation
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Both Template
+        id: pr_template
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const prTemplate = context.payload.pull_request.body;
+            const revertsRegex = /\bReverts\b/;
+            const checkRevertRegex = revertsRegex.test(prTemplate);
+            const requiredFields = ['Description','File Changes','Before Fix','After Fix','Impacted areas','Brakeman Report','OverCommit Report', 'Checklist'];
+            const missingFields = requiredFields.filter(field => !prTemplate.includes(field));
+            const checkMissingFields = missingFields.length > 0;
+            if (!checkRevertRegex && !checkMissingFields) {
+              core.setFailed(`Pull request template is missing required fields: ${missingFields.join(', ')}`);
+            }
+
