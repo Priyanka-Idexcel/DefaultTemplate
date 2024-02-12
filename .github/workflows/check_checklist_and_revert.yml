@@ -1,0 +1,27 @@
+name: Check checklist and revert Validation
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Both Template
+        id: pr_template
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const prTemplate = context.payload.pull_request.body;
+            const revertsRegex = /\bReverts\b/;
+            const isRevertsPresent = revertsRegex.test(prTemplate);
+            if (prTemplate.includes('[ ]')) {
+                core.setFailed('PR checklist is incomplete. Please mark all checkboxes');
+            }
+            if (!isRevertsPresent && prTemplate.includes('[ ]')) {
+                core.setFailed('Error: "Reverts" is not present and PR checklist is incomplete.');
+            }
+
+

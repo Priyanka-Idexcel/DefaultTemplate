@@ -19,7 +19,7 @@ jobs:
             const checkRevertRegex = revertsRegex.test(prTemplate);
             const requiredFields = ['Description','File Changes','Before Fix','After Fix','Impacted areas','Brakeman Report','OverCommit Report', 'Checklist'];
             const missingFields = requiredFields.filter(field => !prTemplate.includes(field));
-            const checkMissingFields = missingFields.length > 0;
+            const checkMissingFields = missingFields.length === 0;
             if (!checkRevertRegex && !checkMissingFields) {
               core.setFailed(`Pull request template is missing required fields: ${missingFields.join(', ')}`);
             }

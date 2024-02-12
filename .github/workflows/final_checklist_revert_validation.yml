@@ -1,0 +1,23 @@
+name: Final Check List Validation
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Pull Request Template
+        id: pr_template
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const prTemplate = context.payload.pull_request.body;
+            const revertsRegex = /\bReverts\b/;
+            const isRevertsPresent = revertsRegex.test(prTemplate);
+            const isChecklistIncomplete = prTemplate.indexOf('[ ]') !== -1;
+            if (!isRevertsPresent && isChecklistIncomplete) {
+                core.setFailed('PR checklist is incomplete. Please mark all checkboxes.');
+            }
