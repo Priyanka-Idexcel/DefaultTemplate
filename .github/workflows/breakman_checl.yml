@@ -1,32 +1,44 @@
-name: Breakman Scan
+name: Run brakeman security analysis on pull requests
 
 on:
   pull_request:
     types: [opened, synchronize]
 
 jobs:
-  breakman_scan:
+  brakeman:
+    name: Run brakeman
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Fetch the entire repository history to avoid conflicts
 
-    - name: Set up Ruby
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: 2.7
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
 
-    - name: Install dependencies
-      run: |
-        gem install bundler
-        bundle install
+      - name: Install brakeman 5.4.1
+        run: gem install brakeman -v 5.4.1
 
-    - name: Run Breakman
-      run: bundle exec breakman -z --format=json --output-file=breakman-report.json
+      - name: Get list of changed files
+        id: getfile
+        run: |
+          git diff --name-only --diff-filter=d origin/main...HEAD > changed_files.txt
+          echo "::set-output name=files::$(cat changed_files.txt)"
 
-    - name: Upload Breakman Report
-      uses: actions/upload-artifact@v2
-      with:
-        name: breakman-report
-        path: breakman-report.json
+      - name: Run Brakeman on changed files
+        run: |
+          for file in ${{ steps.getfile.outputs.files }}; do
+            if [[ $file =~ \.(rb|html\.erb|haml)$ ]]; then
+              echo "Scanning $file"
+              brakeman -z --format json --add-filter $file --output breakman-report.json .
+            fi
+          done
+
+      - name: Upload brakeman report
+        uses: actions/upload-artifact@v2
+        with:
+          name: brakeman-report
+          path: breakman-report.json
