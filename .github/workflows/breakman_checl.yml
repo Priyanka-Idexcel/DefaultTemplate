@@ -1,0 +1,32 @@
+name: Breakman Scan
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  breakman_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+
+    - name: Install dependencies
+      run: |
+        gem install bundler
+        bundle install
+
+    - name: Run Breakman
+      run: bundle exec breakman -z --format=json --output-file=breakman-report.json
+
+    - name: Upload Breakman Report
+      uses: actions/upload-artifact@v2
+      with:
+        name: breakman-report
+        path: breakman-report.json
