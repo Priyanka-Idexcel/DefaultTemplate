@@ -1,0 +1,32 @@
+name: Brakeman Pull Request Check
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  security_scan:
+    name: Run Brakeman on Pull Request Changes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.3
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+
+      - name: Get changed files
+        id: changed_files
+        run: echo "::set-output name=files::$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" | grep '\.rb$')"
+
+      - name: Run Brakeman on changed files
+        run: |
+          echo "${{ steps.changed_files.outputs.files }}" | xargs bundle exec brakeman --exit-on-warn --no-exit-on-error

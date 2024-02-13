@@ -2,7 +2,7 @@ name: Run Ruby script
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, edited, synchronize]
 
 jobs:
   run_ruby_script:
@@ -18,6 +18,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0
+          
+      - name: Install Octokit gem
+        run: gem install octokit
 
       - name: Run Ruby script
         run: ruby script.rb
