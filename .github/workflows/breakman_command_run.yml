@@ -1,26 +1,27 @@
-name: Run Ruby script
+name: Run brakeman security analysis on pull requests
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
-  run_ruby_script:
+  brakeman:
+    name: Run brakeman
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby-version: [2.7, 3.0, 3.1]
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Fetch the entire repository history to avoid conflicts
 
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
 
-    - name: Run Ruby script
-      run: |
-        ruby my_script.rb
+      - name: Install brakeman 5.4.1
+        run: gem install brakeman -v 5.4.1
+
+      - name: run brakeman command
+        run: brakeman
+          
