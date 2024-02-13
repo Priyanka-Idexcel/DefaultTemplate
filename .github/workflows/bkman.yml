@@ -1,30 +1,63 @@
-name: Brakeman
+# name: Brakeman
+
+# on:
+#   pull_request:
+#     paths:
+#       - '**/*.rb' # Trigger only when Ruby files are modified
+
+# jobs:
+#   brakeman:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Set up Ruby
+#         uses: ruby/setup-ruby@v1
+#         with:
+#           ruby-version: 3 # Or specify your desired Ruby version
+
+#       - name: Install Brakeman 5.4.1
+#         run: gem install brakeman -v 5.4.1
+
+#       - name: Get modified files
+#         id: get_modified_files
+#         run: echo "::set-output name=files::$(git diff --name-only origin/main...$GITHUB_HEAD_REF | grep '\.rb$')"
+
+#       - name: Run Brakeman
+#         run: |
+#           echo "${{ steps.get_modified_files.outputs.files }}" | xargs -I{} brakeman {}
+
+
+
+
+name: Check File Request Template
 
 on:
   pull_request:
-    paths:
-      - '**/*.rb' # Trigger only when Ruby files are modified
+    types: [opened, synchronize]
 
 jobs:
-  brakeman:
+  check_template:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Extract file names from pull request
+        uses: actions/github-script@v5
         with:
-          ruby-version: 3 # Or specify your desired Ruby version
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const filesChanged = context.payload.pull_request.changed_files;
 
-      - name: Install Brakeman 5.4.1
-        run: gem install brakeman -v 5.4.1
+            if (filesChanged) {
+              console.log(`Number of files changed in the pull request: ${filesChanged}`);
+            } else {
+              console.log("No files changed in the pull request.");
+            }
 
-      - name: Get modified files
-        id: get_modified_files
-        run: echo "::set-output name=files::$(git diff --name-only origin/main...$GITHUB_HEAD_REF | grep '\.rb$')"
 
-      - name: Run Brakeman
-        run: |
-          echo "${{ steps.get_modified_files.outputs.files }}" | xargs -I{} brakeman {}
+

@@ -1,0 +1,24 @@
+name: Check Breakman
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  check_template:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install required Node.js modules
+        run: npm install @octokit/rest node-fetch
+
+      - name: Install brakeman 5.4.1
+        run: gem install brakeman -v 5.4.1
+
+      - name: Run Breakman
+        run: Breakman
+         
+         
