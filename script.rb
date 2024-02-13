@@ -1,0 +1,1 @@
+puts "This is ruby script running through github workflow"
