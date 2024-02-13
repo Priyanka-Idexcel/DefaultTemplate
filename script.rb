@@ -1,39 +1,37 @@
-puts "This is ruby script running through github workflow"
-
+puts "This is a Ruby script running through a GitHub workflow"
 
 require 'octokit'
 require 'json'
-require 'uri'
-require 'net/http'
 
-# Initialize Octokit client
 client = Octokit::Client.new(access_token: ENV['GITHUB_TOKEN'])
 
-# Function to get changed files from a pull request
-def get_changed_files(client, owner, repo, pull_number)
-  uri = URI("https://api.github.com/repos/#{owner}/#{repo}/pulls/#{pull_number}/files")
-  req = Net::HTTP::Get.new(uri)
-  req['Authorization'] = "token #{client.access_token}"
-
-  res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-    http.request(req)
-  end
-
-  if res.is_a?(Net::HTTPSuccess)
-    files = JSON.parse(res.body)
-    files.map { |file| file['filename'] }
-  else
-    raise "Error fetching changed files: #{res.code} - #{res.message}"
-  end
+def get_changed_files(client, owner, pull_number)
+  response = client.pull_request_files(owner, pull_number)
+  file_names = response.map { |file| file.filename }
+  return response.size, file_names
 end
 
-# Example usage:
-owner = 'owner'
-repo = 'repository'
-pull_number = 123
+def run_brakeman(file)
+  system("brakeman  --force #{file}")
+end
+
+owner = 'Priyanka-Idexcel/DefaultTemplate'
+pull_number = 185 
+
 begin
-  file_names = get_changed_files(client, owner, repo, pull_number)
-  puts file_names
+  num_files_changed, file_names = get_changed_files(client, owner, pull_number)
+  puts "Number of files changed: #{num_files_changed}"
+  puts "Files changed: #{file_names}"
+
+  if num_files_changed.positive?
+    puts "Running Brakeman on each changed file:"
+    file_names.each do |file|
+      puts "Running Brakeman on #{file}"
+      run_brakeman(file)
+    end
+  else
+    puts "No files changed. Skipping Brakeman analysis."
+  end
 rescue StandardError => e
   puts "Error: #{e.message}"
 end
