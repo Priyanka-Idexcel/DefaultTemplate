@@ -1,0 +1,56 @@
+name: Check File Names Request Template
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  check_template:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install required Node.js modules
+        run: npm install @octokit/rest node-fetch
+
+      - name: Extract file names from pull request
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { Octokit } = require("@octokit/rest");
+
+            const octokit = new Octokit({
+              auth: process.env.GITHUB_TOKEN
+            });
+
+            async function getChangedFiles(owner, repo, pullNumber) {
+              // Dynamically import node-fetch
+              const fetch = (await import('node-fetch')).default;
+
+              const response = await octokit.pulls.listFiles({
+                owner: owner,
+                repo: repo,
+                pull_number: pullNumber,
+                request: {
+                  fetch: fetch // Pass the fetch implementation
+                }
+              });
+
+              const fileNames = response.data.map(file => file.filename);
+              return fileNames;
+            }
+
+            // Example usage:
+            const owner = "owner";
+            const repo = "repository";
+            const pullNumber = 123;
+            getChangedFiles(owner, repo, pullNumber)
+              .then(fileNames => {
+                console.log(fileNames);
+              })
+              .catch(err => {
+                console.error("Error fetching changed files:", err);
+              });

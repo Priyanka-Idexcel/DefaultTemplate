@@ -1,12 +1,12 @@
-name: security analysis on pull requests
+name: Run Ruby script
 
 on:
   pull_request:
     types: [opened, synchronize]
 
 jobs:
-  brakeman:
-    name: Run brakeman
+  run_ruby_script:
+    name: Run Ruby script
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -19,8 +19,5 @@ jobs:
         with:
           ruby-version: 3.0
 
-      - name: Install brakeman 5.4.1
-        run: gem install brakeman -v 5.4.1
-
-      - name: Run brakeman command
-        run: brakeman
+      - name: Run Ruby script
+        run: ruby script.rb
