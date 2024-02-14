@@ -12,8 +12,21 @@ def get_changed_files(client, owner, pull_number)
 end
 
 def run_brakeman(file)
-  system("brakeman  --force #{file}")
+ output = system("brakeman  --force #{file}")
+p 11111111111111111111111111111111111111111111111111111111111
+  # Print the output
+  puts "Brakeman output for #{file}:"
+  puts "breakman outut #{output}"
 end
+
+# def run_brakeman(file)
+#   output_file = "#{file}_brakeman_output.txt"
+#   system("brakeman --force #{file} > #{output_file}")
+#   output = File.read(output_file)
+#   puts "Brakeman output for #{file}:"
+#   puts output
+#   File.delete(output_file)
+# end
 
 owner = 'Priyanka-Idexcel/DefaultTemplate'
 pull_number = 185 
