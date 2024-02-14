@@ -52,7 +52,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const filesChanged = context.payload.pull_request.changed_files;
-
             if (filesChanged) {
               console.log(`Number of files changed in the pull request: ${filesChanged}`);
             } else {
