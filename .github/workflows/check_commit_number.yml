@@ -1,0 +1,20 @@
+name: Single Commit Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  single_commit_check:
+    name: Single Commit Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if there is only one commit
+        run: |
+          commit_count=$(git rev-list --count HEAD^..HEAD)
+          if [ "$commit_count" -ne 1 ]; then
+            echo "Error: Pull request must contain only one commit."
+            exit 1
+          fi
