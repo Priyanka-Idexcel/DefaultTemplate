@@ -1,4 +1,4 @@
-name: Run Ruby script
+name: Run rubocop script
 
 on:
   pull_request:
@@ -19,11 +19,12 @@ jobs:
         with:
           ruby-version: 3.0
           
-      - name: Install brakeman 5.4.1
-        run: gem install brakeman -v 5.4.1
+      - name: Install RuboCop
+        run: gem install rubocop
 
+          
       - name: Install Octokit gem
         run: gem install octokit
 
       - name: Run Ruby script
-        run: ruby script.rb
+        run: ruby rubocop_script.rb
